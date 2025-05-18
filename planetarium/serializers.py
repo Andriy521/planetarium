@@ -11,6 +11,8 @@ from planetarium.models import (
 
 
 class ShowThemeSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
+
     class Meta:
         model = ShowTheme
         fields = "__all__"

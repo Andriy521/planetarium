@@ -2,8 +2,14 @@ from django.db import models
 
 from user.models import User
 
+
+def show_theme_image_path(instance, filename):
+    return f"show_themes/{instance.id}/{filename}"
+
+
 class ShowTheme(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=show_theme_image_path, null=True, blank=True)
 
     def __str__(self):
         return self.name

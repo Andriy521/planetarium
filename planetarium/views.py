@@ -1,4 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from planetarium.models import (
     ShowTheme,
@@ -27,6 +31,14 @@ class ShowThemeView(viewsets.ModelViewSet):
 class AstronomyShowView(viewsets.ModelViewSet):
     queryset = AstronomyShow.objects.all()
     serializer_class = AstronomyShowSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    @action(detail=True, methods=['POST'], url_path='upload-image')
+    def upload_image(self, request, pk=None):
+        show_theme = self.get_object()
+        show_theme.image = request.FILES.get('image')
+        show_theme.save()
+        return Response(self.get_serializer(show_theme).data, status=status.HTTP_200_OK)
 
 
 class PlanetariumDomeView(viewsets.ModelViewSet):
