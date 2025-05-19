@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db import IntegrityError
 
 from planetarium.models import (
     ShowTheme,
@@ -46,3 +47,24 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = "__all__"
+
+    def validate(self, data):
+        row = data("row")
+        seat = data("seat")
+        show_session = data("show_session")
+
+        if Ticket.objects.filter(row=row, seat=seat, show_session=show_session).exists():
+            raise serializers.ValidationError("Ticket already taken")
+
+        dome = show_session.planetarium_dome
+        if row < 1 or row > dome.rows:
+            raise serializers.ValidationError(
+                f"Row number must be between 1 and {dome.rows}."
+            )
+        if seat < 1 or seat > dome.seats_in_row:
+            raise serializers.ValidationError(
+                f"Seat number must be between 1 and {dome.seats_in_row}."
+            )
+
+        return data
+
