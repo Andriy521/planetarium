@@ -12,16 +12,16 @@ from planetarium.views import (
     TicketView
 )
 
+app_name = "planetarium"
+
 router = routers.DefaultRouter()
-router.register("themes", ShowThemeView)
-router.register("astronomy_shows", AstronomyShowView)
-router.register("planetarium_domes", PlanetariumDomeView)
-router.register("sessions", ShowSessionView)
-router.register("reservations", ReservationView)
-router.register("tickets", TicketView)
+router.register("themes", ShowThemeView, basename="showtheme")
+router.register("astronomy_shows", AstronomyShowView, basename="astronomyshow")
+router.register("planetarium_domes", PlanetariumDomeView, basename="planetariumdome")
+router.register("sessions", ShowSessionView, basename="showsession")
+router.register("reservations", ReservationView, basename="reservation")
+router.register("tickets", TicketView, basename="ticket")
 
 urlpatterns = [
     path("", include(router.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-app_name = "planetarium"

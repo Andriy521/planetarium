@@ -1,0 +1,9 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(["GET"])
+def api_root(request, format=None):
+    return Response({
+        "planetarium": request.build_absolute_uri("/api/planetarium/"),
+        "user": request.build_absolute_uri("/api/user/"),
+    })

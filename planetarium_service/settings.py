@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "planetarium",
     "user",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'planetarium.urls'
+ROOT_URLCONF = 'planetarium_service.urls'
 
 TEMPLATES = [
     {
@@ -128,3 +129,9 @@ AUTH_USER_MODEL = "user.User"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
