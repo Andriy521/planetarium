@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 
+from planetarium.permissions import IsAdminOrReadOnlyForAuthenticated
+
 from planetarium.models import (
     ShowTheme,
     AstronomyShow,
@@ -26,12 +28,14 @@ from planetarium.serializers import (
 class ShowThemeView(viewsets.ModelViewSet):
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
 
 
 class AstronomyShowView(viewsets.ModelViewSet):
     queryset = AstronomyShow.objects.all()
     serializer_class = AstronomyShowSerializer
     parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
 
     @action(detail=True, methods=['POST'], url_path='upload-image')
     def upload_image(self, request, pk=None):
@@ -44,18 +48,22 @@ class AstronomyShowView(viewsets.ModelViewSet):
 class PlanetariumDomeView(viewsets.ModelViewSet):
     queryset = PlanetariumDome.objects.all()
     serializer_class = PlanetariumDomeSerializer
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
 
 
 class ShowSessionView(viewsets.ModelViewSet):
     queryset = ShowSession.objects.all()
     serializer_class = ShowSessionSerializer
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
 
 
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
 
 
 class TicketView(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    permission_classes = [IsAdminOrReadOnlyForAuthenticated]
